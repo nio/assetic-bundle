@@ -12,7 +12,7 @@
         <parameter key="assetic.filter.scss.compass">null</parameter>
         <parameter key="assetic.filter.scss.precision">null</parameter>
         <parameter key="assetic.filter.scss.load_paths" type="collection">
-            <parameter>%kernel.root_dir%/../web</parameter>
+            <parameter>%kernel.project_dir%/web</parameter>
         </parameter>
         <parameter key="assetic.filter.scss.cache_location">%kernel.cache_dir%</parameter>
         <parameter key="assetic.filter.scss.enable_sourcemaps">null</parameter>
