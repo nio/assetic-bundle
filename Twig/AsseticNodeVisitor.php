@@ -14,7 +14,7 @@ namespace Symfony\Bundle\AsseticBundle\Twig;
 use Assetic\Extension\Twig\AsseticFilterFunction;
 use Symfony\Bundle\AsseticBundle\Exception\InvalidBundleException;
 use Symfony\Bundle\FrameworkBundle\Templating\TemplateReference;
-use Symfony\Component\Templating\TemplateNameParserInterface;
+use Twig\Environment;
 
 /**
  * Assetic node visitor.
@@ -23,12 +23,12 @@ use Symfony\Component\Templating\TemplateNameParserInterface;
  */
 class AsseticNodeVisitor extends \Twig_BaseNodeVisitor
 {
-    private $templateNameParser;
+    private $twig;
     private $enabledBundles;
 
-    public function __construct(TemplateNameParserInterface $templateNameParser, array $enabledBundles)
+    public function __construct(Environment $twig, array $enabledBundles)
     {
-        $this->templateNameParser = $templateNameParser;
+        $this->twig = $twig;
         $this->enabledBundles = $enabledBundles;
     }
 
@@ -44,7 +44,7 @@ class AsseticNodeVisitor extends \Twig_BaseNodeVisitor
         }
 
         // check the bundle
-        $templateRef = $this->templateNameParser->parse($env->getParser()->getStream()->getFilename());
+        $templateRef = $this->twig->parse($env->getParser()->getStream()->getFilename());
         $bundle = $templateRef instanceof TemplateReference ? $templateRef->get('bundle') : null;
         if ($bundle && !in_array($bundle, $this->enabledBundles)) {
             throw new InvalidBundleException($bundle, "the $name() function", $templateRef->getLogicalName(), $this->enabledBundles);
