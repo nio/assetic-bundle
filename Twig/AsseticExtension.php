@@ -14,7 +14,7 @@ namespace Symfony\Bundle\AsseticBundle\Twig;
 use Assetic\Extension\Twig\AsseticExtension as BaseAsseticExtension;
 use Assetic\Factory\AssetFactory;
 use Assetic\ValueSupplierInterface;
-use Symfony\Component\Templating\TemplateNameParserInterface;
+use Twig\Environment;
 
 /**
  * Assetic extension.
@@ -24,15 +24,15 @@ use Symfony\Component\Templating\TemplateNameParserInterface;
 class AsseticExtension extends BaseAsseticExtension
 {
     private $useController;
-    private $templateNameParser;
+    private $twig;
     private $enabledBundles;
 
-    public function __construct(AssetFactory $factory, TemplateNameParserInterface $templateNameParser, $useController = false, $functions = array(), $enabledBundles = array(), ValueSupplierInterface $valueSupplier = null)
+    public function __construct(AssetFactory $factory, Environment $twig, $useController = false, $functions = array(), $enabledBundles = array(), ValueSupplierInterface $valueSupplier = null)
     {
         parent::__construct($factory, $functions, $valueSupplier);
 
         $this->useController = $useController;
-        $this->templateNameParser = $templateNameParser;
+        $this->twig = $twig;
         $this->enabledBundles = $enabledBundles;
     }
 
@@ -48,7 +48,7 @@ class AsseticExtension extends BaseAsseticExtension
     public function getNodeVisitors()
     {
         return array(
-            new AsseticNodeVisitor($this->templateNameParser, $this->enabledBundles),
+            new AsseticNodeVisitor($this->twig, $this->enabledBundles),
         );
     }
 
@@ -63,7 +63,7 @@ class AsseticExtension extends BaseAsseticExtension
     private function createTokenParser($tag, $output, $single = false)
     {
         $tokenParser = new AsseticTokenParser($this->factory, $tag, $output, $single, array('package'));
-        $tokenParser->setTemplateNameParser($this->templateNameParser);
+        $tokenParser->setTemplateNameParser($this->twig);
         $tokenParser->setEnabledBundles($this->enabledBundles);
 
         return $tokenParser;
