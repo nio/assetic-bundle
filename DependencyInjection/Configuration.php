@@ -46,10 +46,10 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $builder = new TreeBuilder();
+        $builder = new TreeBuilder('assetic');
         $finder = new ExecutableFinder();
-        $rootNode = $builder->root('assetic');
-
+        $rootNode = method_exists('Symfony\Component\Config\Definition\Builder\TreeBuilder', 'getRootNode') ? $builder->getRootNode() : $builder->root('assetic');
+        
         $rootNode
             ->children()
                 ->booleanNode('debug')->defaultValue('%kernel.debug%')->end()
