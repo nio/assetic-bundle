@@ -62,7 +62,7 @@ class Configuration implements ConfigurationInterface
                         ->booleanNode('profiler')->defaultFalse()->end()
                     ->end()
                 ->end()
-                ->scalarNode('read_from')->defaultValue('%kernel.root_dir%/../web')->end()
+                ->scalarNode('read_from')->defaultValue('%kernel.project_dir%/web')->end()
                 ->scalarNode('write_to')->defaultValue('%assetic.read_from%')->end()
                 ->scalarNode('java')->defaultValue(function () use ($finder) { return $finder->find('java', '/usr/bin/java'); })->end()
                 ->scalarNode('node')->defaultValue(function () use ($finder) { return $finder->find('node', '/usr/bin/node'); })->end()
