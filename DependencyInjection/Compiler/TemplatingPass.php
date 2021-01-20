@@ -27,7 +27,7 @@ class TemplatingPass implements CompilerPassInterface
             return;
         }
 
-        $engines = $container->getParameterBag()->resolveValue($container->getParameter('templating.engines'));
+        $engines = ['twig]; //$container->getParameterBag()->resolveValue($container->getParameter('templating.engines'));
 
         if (!in_array('twig', $engines)) {
             foreach ($container->findTaggedServiceIds('assetic.templating.twig') as $id => $attr) {
