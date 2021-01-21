@@ -15,6 +15,8 @@ use Assetic\Extension\Twig\AsseticExtension as BaseAsseticExtension;
 use Assetic\Factory\AssetFactory;
 use Assetic\ValueSupplierInterface;
 use Twig\Environment;
+//use Symfony\Component\Templating\TemplateNameParserInterface;
+use Symfony\Component\Templating\TemplateNameParser;
 
 /**
  * Assetic extension.
@@ -25,6 +27,7 @@ class AsseticExtension extends BaseAsseticExtension
 {
     private $useController;
     private $twig;
+    private $templateNameParser;
     private $enabledBundles;
 
     public function __construct(AssetFactory $factory, Environment $twig, $useController = false, $functions = array(), $enabledBundles = array(), ValueSupplierInterface $valueSupplier = null)
@@ -33,6 +36,7 @@ class AsseticExtension extends BaseAsseticExtension
 
         $this->useController = $useController;
         $this->twig = $twig;
+        $this->templateNameParser = new TemplateNameParser();
         $this->enabledBundles = $enabledBundles;
     }
 
@@ -63,7 +67,7 @@ class AsseticExtension extends BaseAsseticExtension
     private function createTokenParser($tag, $output, $single = false)
     {
         $tokenParser = new AsseticTokenParser($this->factory, $tag, $output, $single, array('package'));
-        $tokenParser->setTemplateNameParser($this->twig);
+        $tokenParser->setTemplateNameParser($this->templateNameParser);
         $tokenParser->setEnabledBundles($this->enabledBundles);
 
         return $tokenParser;
