@@ -15,7 +15,8 @@ use Assetic\Contracts\Asset\AssetInterface;
 use Assetic\Extension\Twig\AsseticTokenParser as BaseAsseticTokenParser;
 use Symfony\Bundle\AsseticBundle\Exception\InvalidBundleException;
 use Symfony\Bundle\FrameworkBundle\Templating\TemplateReference;
-use Twig\Environment;
+use Symfony\Component\Templating\TemplateNameParserInterface;
+use Twig\Token;
 use Twig\Node\Node;
 
 /**
@@ -28,12 +29,12 @@ class AsseticTokenParser extends BaseAsseticTokenParser
     /**
      * @var Environment|null
      */
-    private $twig;
+    private $templateNameParser;
     private $enabledBundles;
 
-    public function setTemplateNameParser(Environment $twig)
+    public function setTemplateNameParser(TemplateNameParserInterface $templateNameParser)
     {
-        $this->twig = $twig;
+        $this->templateNameParser = $templateNameParser;
     }
 
     public function setEnabledBundles(array $enabledBundles = null)
@@ -41,13 +42,13 @@ class AsseticTokenParser extends BaseAsseticTokenParser
         $this->enabledBundles = $enabledBundles;
     }
 
-    public function parse(\Twig_Token $token)
+    public function parse(Token $token)
     {
-        if ($this->twig && is_array($this->enabledBundles)) {
+        if ($this->templateNameParser && is_array($this->enabledBundles)) {
             // check the bundle
             $templateRef = null;
             try {
-                $templateRef = $this->twig->parse($this->parser->getStream()->getSourceContext()->getName());
+                $templateRef = $this->templateNameParser->parse($this->parser->getStream()->getSourceContext()->getName());
             } catch (\RuntimeException $e) {
                 // this happens when the filename isn't a Bundle:* url
                 // and it contains ".."
