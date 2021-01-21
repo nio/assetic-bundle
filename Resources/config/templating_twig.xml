@@ -20,6 +20,7 @@
             <argument>%assetic.bundles%</argument>
             <argument type="service" id="assetic.value_supplier" on-invalid="null" />
         </service>
+        <!--TODO sf52
         <service id="assetic.twig_formula_loader" class="%assetic.cached_formula_loader.class%" public="false">
             <tag name="assetic.formula_loader" alias="twig" />
             <tag name="assetic.templating.twig" />
@@ -33,5 +34,6 @@
             <argument type="service" id="twig" />
             <argument type="service" id="logger" on-invalid="ignore" />
         </service>
+        -->
     </services>
 </container>
