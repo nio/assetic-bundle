@@ -103,7 +103,7 @@ class WatchCommand extends AbstractCommand
 
         $combinations = VarUtils::getCombinations(
             $asset->getVars(),
-            $this->getContainer()->getParameter('assetic.variables')
+            $this->params->get('assetic.variables')
         );
 
         $mtime = 0;
