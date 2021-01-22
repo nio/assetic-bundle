@@ -18,7 +18,7 @@
     </parameters>
 
     <services>
-        <service id="assetic.filter.yui_js" class="%assetic.filter.yui_js.class%" public="true">
+        <!--<service id="assetic.filter.yui_js" class="%assetic.filter.yui_js.class%" public="true">
             <tag name="assetic.filter" alias="yui_js" />
             <argument>%assetic.filter.yui_js.jar%</argument>
             <argument>%assetic.filter.yui_js.java%</argument>
@@ -29,6 +29,6 @@
             <call method="setPreserveSemi"><argument>%assetic.filter.yui_js.preserve_semi%</argument></call>
             <call method="setDisableOptimizations"><argument>%assetic.filter.yui_js.disable_optimizations%</argument></call>
             <call method="setLineBreak"><argument>%assetic.filter.yui_js.linebreak%</argument></call>
-        </service>
+        </service>-->
     </services>
 </container>
