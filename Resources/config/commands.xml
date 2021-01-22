@@ -11,9 +11,15 @@
 
     <services>
         <service id="assetic.command.dump" class="%assetic.dump_command.class%" public="true">
+            <argument type="service" id="assetic.asset_manager" />
+            <argument type="service" id="Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface" />
+            <argument type="service" id="event_dispatcher" />
             <tag name="console.command" command="assetic:dump" />
         </service>
         <service id="assetic.command.watch" class="%assetic.watch_command.class%" public="true">
+            <argument type="service" id="assetic.asset_manager" />
+            <argument type="service" id="Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface" />
+            <argument type="service" id="event_dispatcher" />
             <tag name="console.command" command="assetic:watch" />
         </service>
     </services>
