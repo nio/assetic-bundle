@@ -12,7 +12,8 @@
 namespace Symfony\Bundle\AsseticBundle\Factory\Resource;
 
 use Assetic\Factory\Resource\DirectoryResource as BaseDirectoryResource;
-use Symfony\Component\Templating\Loader\LoaderInterface;
+use Twig\Loader\LoaderInterface;
+
 
 /**
  * A directory resource that creates Symfony2 templating resources.
