@@ -56,9 +56,9 @@ class DumpCommand extends AbstractCommand
             }
 
             $this->spork = new ProcessManager(
-                new WrappedEventDispatcher($this->getContainer()->get('event_dispatcher')),
+                new WrappedEventDispatcher($this->eventDispatcher),
                 null,
-                $this->getContainer()->getParameter('kernel.debug')
+                $this->params->get('kernel.debug')
             );
         }
 
