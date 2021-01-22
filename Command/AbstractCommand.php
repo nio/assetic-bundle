@@ -14,20 +14,35 @@ namespace Symfony\Bundle\AsseticBundle\Command;
 use Assetic\Asset\AssetCollectionInterface;
 use Assetic\Asset\AssetInterface;
 use Assetic\Util\VarUtils;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+//use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-abstract class AbstractCommand extends ContainerAwareCommand
+use Assetic\Factory\LazyAssetManager;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
+abstract class AbstractCommand extends Command
 {
     protected $am;
     protected $basePath;
+    protected $eventDispatcher;
+
+    public function __construct(LazyAssetManager $am, ParameterBagInterface $params, EventDispatcherInterface $eventDispatcher) {
+        parent::__construct();
+
+        $this->am = $am;
+        $this->params = $params;
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
 
     protected function initialize(InputInterface $input, OutputInterface $stdout)
     {
-        $this->am = $this->getContainer()->get('assetic.asset_manager');
+        //$this->am = $this->getContainer()->get('assetic.asset_manager');
 
-        $this->basePath = $this->getContainer()->getParameter('assetic.write_to');
+        $this->basePath = $this->params->get('assetic.write_to');
         if ($input->hasArgument('write_to') && $basePath = $input->getArgument('write_to')) {
             $this->basePath = $basePath;
         }
@@ -73,7 +88,7 @@ abstract class AbstractCommand extends ContainerAwareCommand
     {
         $combinations = VarUtils::getCombinations(
             $asset->getVars(),
-            $this->getContainer()->getParameter('assetic.variables')
+            $this->params->get('assetic.variables')
         );
 
         foreach ($combinations as $combination) {
