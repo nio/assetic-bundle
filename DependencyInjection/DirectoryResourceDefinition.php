@@ -66,7 +66,7 @@ class DirectoryResourceDefinition extends Definition
     {
         $definition
             ->setClass('%assetic.directory_resource.class%')
-            ->addArgument(new Reference('twig'))
+            ->addArgument(new Reference('twig.loader'))
             ->addArgument($bundle)
             ->addArgument($dir)
             ->addArgument('/\.[^.]+\.'.$engine.'$/')
